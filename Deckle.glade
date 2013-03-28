@@ -188,6 +188,7 @@
           <object class="GtkDrawingArea" id="drawingarea1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <signal name="draw" handler="mainDraw" swapped="no"/>
           </object>
           <packing>
             <property name="expand">True</property>

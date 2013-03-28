@@ -19,7 +19,16 @@ class DeckleGui(Gtk.Window):
 
     def onFileNew(self, *args):
         self.statusbar.push(0, "File>New")
-
+    
+    def mainDraw(self, drawingArea, cr):
+        print ("Drawing...")
+        cr.move_to(50, 50)
+        cr.rel_line_to(0, 200)
+        cr.rel_line_to(200, 0)
+        cr.rel_line_to(0, -200)
+        cr.rel_line_to(-200, 0)
+        cr.set_source_rgb(0, 0, 0)
+        cr.stroke()
 
 DeckleGui = DeckleGui()
 Gtk.main()
