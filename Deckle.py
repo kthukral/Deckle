@@ -10,8 +10,11 @@ class DeckleGui(Gtk.Window):
         self.window = builder.get_object("window1")
         self.menubar = builder.get_object("menubar1")
         self.toolbar = builder.get_object("toolbar1")
+        
         self.drawingArea = builder.get_object("drawingarea1")
+        self.drawingArea.add_events(Gdk.EventMask.BUTTON1_MOTION_MASK)
         self.drawingArea.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        
         self.statusbar = builder.get_object("statusbar1")
 
         self.window.show_all()
@@ -24,19 +27,19 @@ class DeckleGui(Gtk.Window):
    
     def mainDraw(self, drawingArea, cr):
         print ("Drawing...")
-        cr.move_to(50, 50)
-        cr.set_source_rgb(255, 0, 0)
-        cr.rel_line_to(0, 200)
-        cr.rel_line_to(200, 0)
-        cr.rel_line_to(0, -200)
-        cr.rel_line_to(-200, 0)
-        cr.stroke()
 
     def onDAButtonPress(self, widget, event):
-        print ("Mouse clicked... at ", event.x, ", ", event.y)
+        print ("Click at:  ", 
+            int(event.x), ", ", 
+            int(event.y), ", state: ", 
+            event.state, sep="")
         return True
 
+    def onDAMotion(self, widget, event):
+        print ("Motion at: ", 
+            int(event.x), ", ", 
+            int(event.y),", state: ", 
+            event.state, sep="")
 
 DeckleGui = DeckleGui()
 Gtk.main()
-
