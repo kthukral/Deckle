@@ -190,6 +190,7 @@
             <property name="can_focus">False</property>
             <signal name="draw" handler="mainDraw" swapped="no"/>
             <signal name="button-press-event" handler="onDAButtonPress" swapped="no"/>
+            <signal name="button-release-event" handler="onDAButtonRelease" swapped="no"/>
             <signal name="motion-notify-event" handler="onDAMotion" swapped="no"/>
           </object>
           <packing>
