@@ -1,12 +1,14 @@
-from gi.repository import Gtk
-from gi.repository import Gdk
+from gi.repository import Gtk, Gdk
+import cairo
 
 class DeckleGui(Gtk.Window):
 
-
+    clicks = []
+       
     def __init__(self):
-        
-        self.clicks = []
+        self.buildUI()
+
+    def buildUI(self):
         
         builder = Gtk.Builder()
         builder.add_from_file("Deckle.glade")
@@ -33,14 +35,17 @@ class DeckleGui(Gtk.Window):
    
     def mainDraw(self, drawingArea, cr):
         print ("Drawing...")
-        cr.set_source_rgb(1,1,1)
+        cr.set_source_rgb(0.9, 0.96, 0.99)
         cr.paint()
-        cr.set_source_rgb(0,0,0)
+        cr.set_source_rgb(0,0.1,0.2)
+        cr.set_line_join(cairo.LINE_JOIN_ROUND)
         if len(self.clicks) > 1:
             cr.move_to(self.clicks[0][0], self.clicks[0][1])
             for point in self.clicks:
                 cr.line_to(point[0], point[1])
             cr.stroke()
+        self.statusbar.push(0,
+            "number of points: {}".format(len(self.clicks)))
 
     def onDAButtonPress(self, widget, event):
         print ("Click at:  ", 
@@ -57,7 +62,7 @@ class DeckleGui(Gtk.Window):
         print ("Motion at: ", 
             int(event.x), ", ", 
             int(event.y), sep="")
-        self.clicks.append( (int(event.x), int(event.y)) )
+        self.clicks.append( (event.x, event.y) )
         self.drawingArea.queue_draw()
 
 DeckleGui = DeckleGui()
