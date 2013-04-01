@@ -178,6 +178,18 @@
             <style>
               <class name="primary-toolbar"/>
             </style>
+            <child>
+              <object class="GtkToolButton" id="Quit">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">toolbutton1</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -189,6 +201,7 @@
           <object class="GtkDrawingArea" id="drawingarea1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="events">GDK_BUTTON1_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
             <signal name="draw" handler="mainDraw" swapped="no"/>
             <signal name="button-press-event" handler="onDAButtonPress" swapped="no"/>
             <signal name="button-release-event" handler="onDAButtonRelease" swapped="no"/>

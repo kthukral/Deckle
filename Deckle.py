@@ -3,8 +3,8 @@ import cairo
 
 class DeckleGui(Gtk.Window):
 
-    clicks = []
-       
+    lines = []
+           
     def __init__(self):
         self.buildUI()
 
@@ -17,12 +17,7 @@ class DeckleGui(Gtk.Window):
         self.window = builder.get_object("window1")
         self.menubar = builder.get_object("menubar1")
         self.toolbar = builder.get_object("toolbar1")
-        
         self.drawingArea = builder.get_object("drawingarea1")
-        self.drawingArea.add_events(Gdk.EventMask.BUTTON1_MOTION_MASK)
-        self.drawingArea.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
-        self.drawingArea.add_events(Gdk.EventMask.BUTTON_RELEASE_MASK)
-        
         self.statusbar = builder.get_object("statusbar1")
 
         self.window.show_all()
@@ -39,30 +34,33 @@ class DeckleGui(Gtk.Window):
         cr.paint()
         cr.set_source_rgb(0,0.1,0.2)
         cr.set_line_join(cairo.LINE_JOIN_ROUND)
-        if len(self.clicks) > 1:
-            cr.move_to(self.clicks[0][0], self.clicks[0][1])
-            for point in self.clicks:
-                cr.line_to(point[0], point[1])
-            cr.stroke()
-        self.statusbar.push(0,
-            "number of points: {}".format(len(self.clicks)))
+        if len(self.lines) > 0:
+            for line in self.lines:
+                if len(line) > 1:
+                    cr.move_to(line[0][0], line[0][1])
+                    for point in line:
+                        cr.line_to(point[0], point[1])
+                    cr.stroke()
+#        self.statusbar.push(0,
+#            "number of points: {}".format(len(self.stroke)))
 
     def onDAButtonPress(self, widget, event):
         print ("Click at:  ", 
             int(event.x), ", ", 
             int(event.y), sep="")
+        self.lines.append([])
+        self.lines[len(self.lines)-1].append((event.x, event.y))
         return True
 
     def onDAButtonRelease(self, widget, event):
         print ("Gone!")
-
         return True
 
     def onDAMotion(self, widget, event):
         print ("Motion at: ", 
             int(event.x), ", ", 
             int(event.y), sep="")
-        self.clicks.append( (event.x, event.y) )
+        self.lines[len(self.lines)-1].append( (event.x, event.y) )
         self.drawingArea.queue_draw()
 
 DeckleGui = DeckleGui()
