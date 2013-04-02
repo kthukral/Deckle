@@ -30,9 +30,9 @@ class DeckleGui(Gtk.Window):
    
     def mainDraw(self, drawingArea, cr):
         print ("Drawing...")
-        cr.set_source_rgb(0.9, 0.96, 0.99)
+        cr.set_source_rgb(255/255, 243/255, 180/255)
         cr.paint()
-        cr.set_source_rgb(0,0.1,0.2)
+        cr.set_source_rgb(35/255, 17/255, 9/255)
         cr.set_line_join(cairo.LINE_JOIN_ROUND)
         if len(self.lines) > 0:
             for line in self.lines:
@@ -41,8 +41,6 @@ class DeckleGui(Gtk.Window):
                     for point in line:
                         cr.line_to(point[0], point[1])
                     cr.stroke()
-#        self.statusbar.push(0,
-#            "number of points: {}".format(len(self.stroke)))
 
     def onDAButtonPress(self, widget, event):
         print ("Click at:  ", 
