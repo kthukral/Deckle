@@ -5,6 +5,8 @@ class File(Gtk.Window):
 
     def save_file (self, data):
         filepath = self.get_file()
+        if filepath == "None":
+            return
         f = open (filepath, 'w')
         paths = ""
         if len(data) > 0:
@@ -35,7 +37,7 @@ class File(Gtk.Window):
         dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         self.add_filters(dialog)
         response = dialog.run()
-        filename = dialog.get_filename()
+        filename = str(dialog.get_filename())
         if response == Gtk.ResponseType.OK:
             print ("File selected: " + filename)
         elif response == Gtk.ResponseType.CANCEL:
