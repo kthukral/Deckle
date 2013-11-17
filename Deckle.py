@@ -1,5 +1,6 @@
 from gi.repository import Gtk, Gdk
 import cairo
+import FileManip
 
 class DeckleGui(Gtk.Window):
 
@@ -27,6 +28,8 @@ class DeckleGui(Gtk.Window):
 
     def onFileNew(self, *args):
         self.statusbar.push(0, "File>New")
+        self.lines = []
+        self.drawingArea.queue_draw()
    
     def mainDraw(self, drawingArea, cr):
         print ("Drawing...")
@@ -60,6 +63,10 @@ class DeckleGui(Gtk.Window):
             int(event.y), sep="")
         self.lines[len(self.lines)-1].append( (event.x, event.y) )
         self.drawingArea.queue_draw()
+
+    def on_Save_clicked (self, widget):
+        fileio = FileManip.File()
+        fileio.save_file(self.lines) 
 
 DeckleGui = DeckleGui()
 Gtk.main()
