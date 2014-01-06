@@ -4,10 +4,11 @@ import FileManip
 
 class DeckleGui(Gtk.Window):
 
-    lines = []
            
     def __init__(self):
         self.buildUI()
+        self.lines = []
+        self.fileio = FileManip.File()
 
     def buildUI(self):
         
@@ -32,7 +33,6 @@ class DeckleGui(Gtk.Window):
         self.drawingArea.queue_draw()
    
     def mainDraw(self, drawingArea, cr):
-        print ("Drawing...")
         cr.set_source_rgb(255/255, 243/255, 180/255)
         cr.paint()
         cr.set_source_rgb(35/255, 17/255, 9/255)
@@ -46,27 +46,21 @@ class DeckleGui(Gtk.Window):
                     cr.stroke()
 
     def onDAButtonPress(self, widget, event):
-        print ("Click at:  ", 
-            int(event.x), ", ", 
-            int(event.y), sep="")
         self.lines.append([])
         self.lines[len(self.lines)-1].append((event.x, event.y))
-        return True
 
     def onDAButtonRelease(self, widget, event):
-        print ("Gone!")
-        return True
+        return
 
     def onDAMotion(self, widget, event):
-        print ("Motion at: ", 
-            int(event.x), ", ", 
-            int(event.y), sep="")
         self.lines[len(self.lines)-1].append( (event.x, event.y) )
         self.drawingArea.queue_draw()
+    
+    def on_Open_clicked (self, widget):
+        self.fileio.import_file()
 
     def on_Save_clicked (self, widget):
-        fileio = FileManip.File()
-        fileio.save_file(self.lines) 
+        self.fileio.save_file(self.lines) 
 
 DeckleGui = DeckleGui()
 Gtk.main()

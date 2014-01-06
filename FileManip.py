@@ -4,10 +4,10 @@ from gi.repository import Gtk
 class File(Gtk.Window):
 
     def save_file (self, data):
-        filepath = self.get_file("w")
-        if filepath == "None":
+        file_handle = self.get_file_handle("w")
+        if file_handle == "None":
             return
-        f = open (filepath, "w")
+        f = open (file_handle, "w")
         path_seg = ""
         width = 0
         height = 0
@@ -27,10 +27,15 @@ class File(Gtk.Window):
         f.write(svg)
         print ("Saved")
 
+    def import_file( self ):
+        file_handle = self.get_file_handle("r")
+        svg_file = open ( file_handle, "r" )
+        print (svg_file)
+
     def make_path(self, line):
         width = 0
         height = 0
-        line_text = "\t<path d=' M "
+        line_text = "\t<path d='M "
         for point in line:
              line_text += str(point[0]) + "," + str(point[1]) + " "
              width = point[0] if point[0] > width else width
@@ -39,7 +44,7 @@ class File(Gtk.Window):
 
         return [line_text, width, height]
     
-    def get_file (self, write):
+    def get_file_handle (self, write):
         dialog = Gtk.FileChooserDialog("Please choose a file", self, Gtk.FileChooserAction.SAVE if write=="w" else Gtk.FileChooserAction.OPEN)
         dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
             Gtk.STOCK_SAVE if write == "w" else Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
@@ -58,4 +63,4 @@ class File(Gtk.Window):
         filter_any = Gtk.FileFilter()
         filter_any.set_name("Any files")
         filter_any.add_pattern("*")
-        dialog.add_filter(filter_any)  
+        dialog.add_filter(filter_any)
